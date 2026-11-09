@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<services>
+  <service name="obs_scm">
+    <param name="scm">git</param>
+    <param name="url">https://github.com/ila-embsys/xenadmin.git</param>
+    <param name="revision">mono</param>
+    <param name="versionformat">%cd.%h+mono</param>
+    <param name="without-version">true</param>
+    <param name="filename">xenadmin</param>
+    <param name="changesgenerate">enable</param>
+    <param name="exclude">.github**</param>
+    <param name="exclude">.gitattributes</param>
+    <param name="exclude">.gitignore</param>
+  </service>
+  <service name="tar" mode="buildtime">
+    <!-- <param name="version">_none_</param> -->
+  </service>
+  <service name="recompress" mode="buildtime">
+    <param name="file">*.tar</param>
+    <param name="compression">gz</param>
+  </service>
+  <service name="set_version"/>
+</services>

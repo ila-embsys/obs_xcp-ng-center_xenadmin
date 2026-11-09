@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+
+prefix := /usr
+nuget_pkgs := nuget_packages
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	mkdir -p ${nuget_pkgs}
+	tar -xf ${nuget_pkgs}.tgz -C ${nuget_pkgs}
+
+	cp microsoft.netframework.referenceassemblies.1.0.3.nupkg ${nuget_pkgs}
+	cp microsoft.netframework.referenceassemblies.net48.1.0.3.nupkg ${nuget_pkgs}
+
+	dotnet restore --source ${nuget_pkgs}
+
+	dotnet msbuild -p:Configuration=Release
+
+	# find . -path *.csproj -exec sed -i 's#\(<Project\)#\1 xmlns="http://schemas.microsoft.com/developer/msbuild/2003"#' {} \;
+	# find . -path *.csproj -exec head -n 1 {} \;
+	# xbuild /p:Configuration=Release
+
+	mkdir -p debian/xenadmin/$(prefix)/bin
+
+	echo 'exec /usr/bin/mono "$(prefix)/lib/xenadmin/XCP-ng Center.exe" "$@"' > debian/xenadmin/$(prefix)/bin/xenadmin
+		
+override_dh_auto_install:
+	cd XenAdmin/bin/Release/net48
+	find . -type f ! -path '*.pdb' -exec \
+		install -Dm 644 "{}" "../../../../$(prefix)/lib/xenadmin/{}" \;

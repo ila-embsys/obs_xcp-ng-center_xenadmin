@@ -1,0 +1,12 @@
+Source: xenadmin
+Priority: optional
+Maintainer: Ilya Stolyarov <ila.embsys@gmail.com>
+Standards-Version: 3.9.8
+Section: devel
+
+Package: xenadmin
+Section: devel
+Architecture: any
+Description: XCP-ng Center is a management tool for XCP-ng environments which
+    enables users to manage and monitor XCP-ng hosts and resource pools, and
+    to deploy, monitor, manage and migrate virtual machines.
